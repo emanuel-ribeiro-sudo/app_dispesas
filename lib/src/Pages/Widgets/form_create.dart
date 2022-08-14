@@ -17,11 +17,11 @@ class FormCreate extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          _inputData(hint: "Nome do ponto",estado: true,),
+          _inputData(hint: "Nome do ponto",estado: true,type:TextInputType.text,),
           const SizedBox(
             height: 10,
           ),
-          _inputData(hint: "Data Inicio",estado: true),
+          _inputData(hint: "Data Inicio",estado: true,type: TextInputType.datetime),
           const SizedBox(
             height: 10,
           ),
@@ -32,15 +32,15 @@ class FormCreate extends StatelessWidget {
                       .of(context)
                       .size
                       .width * 0.6,
-                  child: _inputData(hint: "Localizacao",estado: false,)),
+                  child: _inputData(hint: "Localizacao",estado: false,type: TextInputType.number)),
               SizedBox(
                   width: MediaQuery
                       .of(context)
                       .size
                       .width * 0.4,
-                  height: 40,
+                  height: 51,
                   child: const Padding(
-                    padding: EdgeInsets.only(right: 18),
+                    padding: EdgeInsets.only(right: 8,left: 0,top: 2,bottom: 2),
                     child: ElevatedButton(
                       onPressed: null,
                       child: Text('Localizacao',style: style),
@@ -74,32 +74,21 @@ class FormCreate extends StatelessWidget {
 class _inputData extends StatelessWidget {
   final String hint;
   final bool estado;
+  TextInputType type;
   _inputData({
-    Key? key, required this.hint,required this.estado,
+    Key? key, required this.hint,required this.estado, required this.type
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return
-      /*Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: Colors.grey)),
-        // padding: EdgeInsets.symmetric(horizontal: 15),
-        margin: const EdgeInsets.symmetric(horizontal: 15),
-        child: TextFormField(
-            decoration: InputDecoration(
-                border: InputBorder.none, hintText: hint),
-            style: style
-        ));*/
       Padding(
         padding: const EdgeInsets.only(right: 8,top: 8,left: 8, bottom:0),
         child: TextFormField(
           readOnly: !estado,
-
           // controller: _emailController,
           style: const TextStyle(color: letra),
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: type,
           // validator: (email) {
           //   if (email == null || email.isEmpty) {
           //     return 'Por favor, degite seu email';

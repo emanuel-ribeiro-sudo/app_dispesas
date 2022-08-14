@@ -67,10 +67,12 @@ class _EditValuesState extends State<EditValues> {
                         trailing: Container(width: 100,
                           child: Row(
                             children: [
-                              IconButton(onPressed: (){Navigator.push(context,
-                                  MaterialPageRoute(builder: (context)=> FormEdit(discrisao: dados['discrisao'].toString(),valor: dados['valor'].toString(),)));}, icon: const Icon(Icons.edit,color:secondaryColor)),
+                              IconButton(onPressed: (){
+                                Navigator.push(context,
+                                  MaterialPageRoute(builder: (context)=> FormEdit(discrisao: dados['discrisao'],valor: dados['valor'],)));},
+                                  icon: const Icon(Icons.edit,color:secondaryColor)),
                               const SizedBox(width: 10,),
-                              const IconButton(onPressed: null, icon:  Icon(Icons.delete,color:Colors.black,))
+                              const Flexible(child: IconButton(onPressed: null, icon: Icon(Icons.delete,color:Colors.black,)))
                             ],
                           ),
                         ),

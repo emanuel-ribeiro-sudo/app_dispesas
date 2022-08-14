@@ -4,8 +4,8 @@ import '../../../constants.dart';
 
 class FormEdit extends StatefulWidget {
   FormEdit({Key? key,required this.discrisao,required this.valor}) : super(key: key);
-  String discrisao;
-  String valor;
+  var discrisao;
+  var valor;
   @override
   _FormEditState createState() => _FormEditState();
 
@@ -73,7 +73,6 @@ class _insertValues extends StatelessWidget {
   final TextInputType type;
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.only(bottom:0,left: 8.0,right: 8.0,top: 8.0),
       child: TextFormField(

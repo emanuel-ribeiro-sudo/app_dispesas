@@ -1,5 +1,6 @@
 import 'package:app_dispesas/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DeletePoint extends StatelessWidget {
    DeletePoint({Key? key}) : super(key: key);
@@ -73,17 +74,57 @@ Widget _cardPoints (String nome, String valor, String data,context){
                 )
             ),
           ),
-          SizedBox(
-            child:  InkWell(
-              focusColor: Colors.transparent,
-              child: const Icon(Icons.delete,color: Colors.deepOrange),
-              onTap: (){
-                print('Eliminar');
-              },
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0,top: 8.0,left:8.0,right: 16),
+            child: SizedBox(
+              child:  InkWell(
+                  borderRadius: BorderRadius.circular(30),
+                  highlightColor: Colors.blue.withOpacity(0.4),
+                  splashColor: Colors.green.withOpacity(0.9),
+                child: const Icon(Icons.delete,color: Colors.deepOrange),
+                onTap: ()=> showAlertDialog(context)
+              ),
             ),
           )
         ],
       ),
     ),
+  );
+}
+
+showAlertDialog(BuildContext context) {
+  // set up the buttons
+  Widget cancelButton = TextButton(
+    style: TextButton.styleFrom(
+      primary: Colors.white,
+      backgroundColor: primaryColor,
+      onSurface: Colors.grey,
+    ),
+    child: const Text("Nao"),
+    onPressed:  () {
+      Navigator.pop(context, true);
+    },
+  );
+  Widget continueButton = TextButton(
+    child: const Text("Sim"),
+    onPressed:  () {
+      SystemNavigator.pop();
+    },
+  );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: const Text("Eliminar"),
+    content: const Text("Quer mesmo eliminar este ponto?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
   );
 }

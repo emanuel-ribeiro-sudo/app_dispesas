@@ -5,7 +5,6 @@ import 'createAccount_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key,}) : super(key: key);
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -14,10 +13,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formkey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final logado = true;
+  bool visivel = true;
 
-  late Map _json;
-  @override
+   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child:SizedBox(
@@ -46,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                             const Text("Nao tem uma conta?",style: TextStyle(color: primaryColor),),
                             TextButton(onPressed: ()=> Navigator.push(context,MaterialPageRoute(
                                 builder: (context)=> CreateAccountPage())),
-                              child: const Text("Crie",
+                              child: const Text("Crie uma.",
                                   style: TextStyle(fontWeight: FontWeight.bold)),
                             )
                           ]),
@@ -83,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                                 TextFormField(
                                   controller: _passwordController,
                                   style:  TextStyle(color: letra),
-                                  obscureText: true,
+                                  obscureText: visivel,
                                   validator: (senha){
                                     if(senha==null || senha.isEmpty) {
                                       return 'Por favor, degite uma senha';
@@ -93,9 +91,13 @@ class _LoginPageState extends State<LoginPage> {
                                   decoration: InputDecoration(
                                      prefixIcon: const Icon(Icons.lock,color: primaryColor),
                                       alignLabelWithHint: true,
-                                      suffixIcon: const InkWell(
-                                        onTap: null,
-                                          child:  Icon(Icons.remove_red_eye,color: primaryColor)),
+                                      suffixIcon: InkWell(
+                                        onTap: (){
+                                          setState(() {
+                                            visivel =! visivel;
+                                          });
+                                        },
+                                          child:  Icon(visivel?Icons.remove_red_eye:Icons.circle_outlined,color: primaryColor)),
                                       hintText: "********",hintStyle: TextStyle(color: letra.withOpacity(0.2),)
                                   ),
                                 ),

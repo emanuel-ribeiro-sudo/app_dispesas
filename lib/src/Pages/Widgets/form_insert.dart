@@ -116,9 +116,9 @@ class _inputPoint extends StatelessWidget {
 }
 
 class _insertValues extends StatelessWidget {
-  const _insertValues({
+   _insertValues({
     Key? key,
-    required this.hint, required this.controller,required this.type,
+    required this.hint, required this.controller, required this.type,
   }) : super(key: key);
   final TextEditingController controller;
   final String hint;
@@ -130,6 +130,7 @@ class _insertValues extends StatelessWidget {
       padding: const EdgeInsets.only(bottom:0,left: 8.0,right: 8.0,top: 8.0),
       child: TextFormField(
           controller: controller,
+          keyboardType: type,
           decoration: InputDecoration(
                hintText: hint),
           validator: (valor){

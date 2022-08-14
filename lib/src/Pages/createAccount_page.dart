@@ -139,7 +139,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                               alignLabelWithHint: true,
                               suffixIcon: const InkWell(
                                   onTap: null,
-                                  child:  Icon(Icons.remove_red_eye,color: primaryColor)),
+                                  child: Icon(Icons.remove_red_eye,color: primaryColor,)
+                              ),
                               hintText: "********",hintStyle: TextStyle(color: letra.withOpacity(0.2))
                           ),
                         ),
@@ -159,7 +160,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     }
                   },
                       // style: TextButton.styleFrom(backgroundColor: Colors.blue),
-                      child: const Text("Registrar")
+                      child: const Text("Registrar"),
                   ),
                 )
               ],

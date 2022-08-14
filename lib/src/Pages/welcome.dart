@@ -1,3 +1,4 @@
+import 'package:app_dispesas/src/Pages/createAccount_page.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
 import 'login_page.dart';
@@ -42,7 +43,8 @@ class MyHomePage extends StatelessWidget {
                         SizedBox(
                           width:double.infinity ,
                           child: ElevatedButton(
-                            onPressed: null,
+                            onPressed: ()=> Navigator.push(context,MaterialPageRoute(
+                                builder: (context)=> CreateAccountPage())),
                             style: TextButton.styleFrom(
                                 elevation: 0,
                                 backgroundColor: Colors.transparent,

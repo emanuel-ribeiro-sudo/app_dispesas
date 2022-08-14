@@ -1,6 +1,7 @@
 import 'package:app_dispesas/src/Pages/delete_point.dart';
 import 'package:app_dispesas/src/Pages/editData_Page.dart';
 import 'package:app_dispesas/src/Pages/insertData_Page.dart';
+import 'package:app_dispesas/src/Pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -35,8 +36,20 @@ class MenuPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: const [
-                      CircleAvatar(),
-                      Text("Nome")
+                      CircleAvatar(
+                        radius: 74,
+                        backgroundColor: Colors.grey,
+                        child: CircleAvatar(
+                          radius: 70,
+                          backgroundImage: AssetImage('assets/images/profile1.png'),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("Nome do Usuario",style: TextStyle(
+                            color: primaryColor,fontWeight: FontWeight.bold,fontSize: 16
+                        ),),
+                      )
                     ],
                   )
               ),
@@ -63,7 +76,7 @@ class ItemDraw extends StatelessWidget {
         width: _size.height*0.7,
         child: Column(
           children: [
-            const Divider(height:0.5),
+            const Divider(height:0.5,thickness: 1,),
             ListTile(
               title: const Text('Inserir Dados',style: style),
               leading: const Icon(Icons.add_circle_outline_outlined,color: Colors.green,),
@@ -81,7 +94,7 @@ class ItemDraw extends StatelessWidget {
               },
 
             ),
-            const Divider(height:0.5,),
+            const Divider(height:0.5,thickness: 1,),
              ListTile(
               title: const Text('Editar Dados',style: style),
               leading: const Icon(Icons.edit_outlined,color: secondaryColor,),
@@ -97,17 +110,8 @@ class ItemDraw extends StatelessWidget {
                 Navigator.push(context,MaterialPageRoute(
                     builder: (context)=> EditValues()));
               },
-              //     () {
-              //   // Update the state of the app
-              //   // ...
-              //   // Then close the drawer
-              //   Navigator.pop(context);
-              //   Navigator.push(context,MaterialPageRoute(
-              //       builder: (context)=>EditValues()));
-              // },
-
             ),
-            const Divider(height:0.5),
+            const Divider(height:0.5,thickness: 1,),
             ListTile(
               title: const Text('Deletar Pontos',style: style),
               leading: const Icon(Icons.delete_outline_outlined,color: remColor,),
@@ -124,7 +128,7 @@ class ItemDraw extends StatelessWidget {
                     builder: (context)=> DeletePoint()));
               },
             ),
-            const Divider(height:0.5),
+            const Divider(height:0.5,thickness: 1,),
               ListTile(
               title: const Text('DashBoard',style: style,),
               leading:  const Icon(Icons.dashboard_outlined,color: Colors.black,),
@@ -132,17 +136,16 @@ class ItemDraw extends StatelessWidget {
                  onTap: () {
                    Navigator.pop(context);
                    Navigator.push(context,MaterialPageRoute(
-                       builder: (context)=>const InsertValues()));
+                       builder: (context)=>const Profile()));
                  },
                ),
-              onTap: null,
-              //     () {
-              //   Navigator.pop(context);
-              //   Navigator.push(context,MaterialPageRoute(
-              //       builder: (context)=>DashBoardPage()));
-              // },
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context,MaterialPageRoute(
+                builder: (context)=>const Profile()));
+              }
             ),
-            const Divider(height:0.5),
+            const Divider(height:0.5,thickness: 1,),
             ListTile(
               title: const Text('Meus Dados',style: style),
               leading: const Icon(Icons.insert_drive_file_outlined,color: Colors.orangeAccent,),
@@ -150,18 +153,17 @@ class ItemDraw extends StatelessWidget {
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context,MaterialPageRoute(
-                      builder: (context)=>const InsertValues()));
+                      builder: (context)=>const Profile()));
                 },
               ),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pop(context);
+                Navigator.push(context,MaterialPageRoute(
+                    builder: (context)=>const Profile()));
               },
 
             ),
-            const Divider(height:0.5),
+            const Divider(height:0.5,thickness: 1,),
             const ListTile(
               title: Text('     Emanuel Ribeiro',
                   style: style
@@ -178,6 +180,11 @@ class ItemDraw extends StatelessWidget {
 showAlertDialog(BuildContext context) {
   // set up the buttons
   Widget cancelButton = TextButton(
+    style: TextButton.styleFrom(
+      primary: Colors.white,
+      backgroundColor: primaryColor,
+      onSurface: Colors.grey,
+    ),
     child: const Text("Nao"),
     onPressed:  () {
       Navigator.pop(context, true);

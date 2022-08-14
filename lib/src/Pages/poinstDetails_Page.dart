@@ -41,7 +41,7 @@ class PointDetailsPage extends StatelessWidget {
             showAlertDialog(context);
           },
           child: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 5),
+            padding: EdgeInsets.symmetric(vertical: 15.0,horizontal: 5),
             child:  Text('Fechar Ponto',textAlign: TextAlign.center,
                 style: TextStyle(color: primaryColor,fontWeight: FontWeight.bold,fontSize: 16)),
           ),

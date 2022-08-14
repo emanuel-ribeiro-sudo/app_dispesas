@@ -2,6 +2,7 @@ import 'package:app_dispesas/src/Pages/create_point.dart';
 import 'package:app_dispesas/src/Pages/menu_Page.dart';
 import 'package:app_dispesas/src/Pages/poinstDetails_Page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants.dart';
 class HomePage extends StatelessWidget {
@@ -62,7 +63,7 @@ class HomePage extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: const [
-                                        Icon(Icons.arrow_circle_down,color: remColor,size: 30,),
+                                         Icon(Icons.arrow_circle_down,color: remColor,size: 30,),
                                         Text('Dispesas')
                                       ],
                                     ),
@@ -122,7 +123,7 @@ class HomePage extends StatelessWidget {
                     child: GridView.builder(
                         itemCount: _data.length,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                        itemBuilder: (context,index)=> _buildCard('${_data[index]["Nome"]}', "${_data[index]['discrisao']}",'assets/1.jpg',index, context)
+                        itemBuilder: (context,index)=> _buildCard('${_data[index]["Nome"]}', "${_data[index]['discrisao']}",'assets/images/fundo1.png',index, context)
                     ),
                   ),
                 )
