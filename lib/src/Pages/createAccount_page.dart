@@ -1,3 +1,5 @@
+import 'package:app_dispesas/src/Pages/checagem_Page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
@@ -10,7 +12,6 @@ class CreateAccountPage  extends StatefulWidget {
 }
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
-  final _biController= TextEditingController();
 
   final _nomeController= TextEditingController();
 
@@ -21,6 +22,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   final _senha2Controller= TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
+
+  final _firebaseAuth = FirebaseAuth.instance;
+
+  bool visivel1 = true;
+  bool visivel = true;
 
   @override
   Widget build(BuildContext context) {
@@ -109,13 +115,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                             }
                             return null;
                           },
-                          style:  TextStyle(color: letra),
-                          obscureText: true,
+                          style:  const TextStyle(color: letra),
+                          obscureText: visivel,
                           decoration:  InputDecoration(
                               alignLabelWithHint: true,
-                              suffixIcon: const InkWell(
-                                  onTap: null,
-                                  child:  Icon(Icons.remove_red_eye,color: primaryColor)),
+                              suffixIcon: InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      visivel =! visivel;
+                                    });
+                                  },
+                                  child:  Icon(visivel?Icons.remove_red_eye:Icons.circle_outlined,color: primaryColor)
+                              ),
                               hintText: "********",hintStyle: TextStyle(color: letra.withOpacity(0.2))
                           ),
                         ),
@@ -134,12 +145,16 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                             return null;
                           },
                           style: const TextStyle(color: letra),
-                          obscureText: true,
+                          obscureText: visivel1,
                           decoration:  InputDecoration(
                               alignLabelWithHint: true,
-                              suffixIcon: const InkWell(
-                                  onTap: null,
-                                  child: Icon(Icons.remove_red_eye,color: primaryColor,)
+                              suffixIcon: InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      visivel1 =! visivel1;
+                                    });
+                                  },
+                                  child:  Icon(visivel1?Icons.remove_red_eye:Icons.circle_outlined,color: primaryColor)
                               ),
                               hintText: "********",hintStyle: TextStyle(color: letra.withOpacity(0.2))
                           ),
@@ -158,6 +173,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         curentFocus.unfocus();
                       }
                     }
+                    cadastrar();
                   },
                       // style: TextButton.styleFrom(backgroundColor: Colors.blue),
                       child: const Text("Registrar"),
@@ -169,6 +185,28 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         ),
       ),
     );
+  }
+
+  cadastrar() async {
+    try{
+      UserCredential userCredential =await _firebaseAuth.createUserWithEmailAndPassword(email: _emailController.text.trim(), password: _senhaController.text.trim());
+      if(userCredential!= null){
+        userCredential.user!.updateDisplayName(_nomeController.text.trim());
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) =>
+            const Checagem()), (route) => false);
+      }
+    } on FirebaseAuthException catch(e) {
+      if(e.code == 'weak-password'){
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Crie uma senha mais forte',textAlign: TextAlign.center),backgroundColor: Colors.redAccent,)
+        );
+      }else if (e.code == 'email-already-in-use'){
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Este ja foi registrado',textAlign: TextAlign.center),backgroundColor: Colors.redAccent,)
+        );
+      }
+    }
   }
 }
 
@@ -182,7 +220,7 @@ class TextFieldName extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: defaultPadding/3),
       child: Text(text,
-        style: TextStyle(fontWeight: FontWeight.w600, color: letra),
+        style: const TextStyle(fontWeight: FontWeight.w600, color: letra),
       ),
     );
   }

@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:app_dispesas/src/Pages/homePage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
@@ -13,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formkey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _firebaseAuth = FirebaseAuth.instance;
   bool visivel = true;
 
    @override
@@ -97,7 +102,8 @@ class _LoginPageState extends State<LoginPage> {
                                             visivel =! visivel;
                                           });
                                         },
-                                          child:  Icon(visivel?Icons.remove_red_eye:Icons.circle_outlined,color: primaryColor)),
+                                          child:  Icon(visivel?Icons.remove_red_eye:Icons.circle_outlined,color: primaryColor)
+                                      ),
                                       hintText: "********",hintStyle: TextStyle(color: letra.withOpacity(0.2),)
                                   ),
                                 ),
@@ -122,11 +128,25 @@ class _LoginPageState extends State<LoginPage> {
                         async {
                           FocusScopeNode curentFocus = FocusScope.of(context);
                           if( _formkey.currentState!.validate()){
-                            
                             if(!curentFocus.hasPrimaryFocus){
                               curentFocus.unfocus();
                             }
                           }
+                          login();
+                          // var deucerto = login(_emailController.text, _passwordController.text);
+                          // print(deucerto);
+                          // if(deucerto == 0){
+                          //   Navigator.pushReplacement(context,MaterialPageRoute(
+                          //       builder: (context)=> HomePage()));
+                          // }else if (deucerto == 1){
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //     const SnackBar(content: Text('Usuario nao encontrado',textAlign: TextAlign.center),backgroundColor: Colors.redAccent,)
+                          //   );
+                          // }else{
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //     const SnackBar(content: Text('Senha incorrecta',textAlign: TextAlign.center),backgroundColor: Colors.redAccent,)
+                          //   );
+                          // }
                         },
                             child: const Text("Entrar")
                         ),
@@ -139,6 +159,26 @@ class _LoginPageState extends State<LoginPage> {
           ),
         )
     );
+  }
+  login() async {
+
+    try{
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+      if(userCredential != null){
+        Navigator.pushReplacement(context,MaterialPageRoute(
+            builder: (context)=> HomePage()));
+      }
+    }on FirebaseAuthException catch(e){
+      if(e.code == 'user-not-found'){
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Usuario nao encontrado',textAlign: TextAlign.center),backgroundColor: Colors.redAccent,)
+        );
+      }else if (e.code == 'wrong-password'){
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Senha incorrecta',textAlign: TextAlign.center),backgroundColor: Colors.redAccent,)
+        );
+      }
+    }
   }
 }
 
@@ -157,3 +197,4 @@ class TextFieldNameLogin extends StatelessWidget {
     );
   }
 }
+

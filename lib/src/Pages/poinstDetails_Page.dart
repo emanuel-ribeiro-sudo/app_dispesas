@@ -147,6 +147,11 @@ showAlertDialog(BuildContext context) {
   final _formkey = GlobalKey<FormState>();
   final _lucroController = TextEditingController();
   Widget cancelButton = TextButton(
+    style: TextButton.styleFrom(
+      primary: Colors.white,
+      backgroundColor: primaryColor,
+      onSurface: Colors.grey,
+    ),
     child: const Text("Nao"),
     onPressed:  () {
       Navigator.pop(context, true);

@@ -2,15 +2,35 @@ import 'package:app_dispesas/src/Pages/delete_point.dart';
 import 'package:app_dispesas/src/Pages/editData_Page.dart';
 import 'package:app_dispesas/src/Pages/insertData_Page.dart';
 import 'package:app_dispesas/src/Pages/profile_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 
 import '../../constants.dart';
+import 'checagem_Page.dart';
 
-class MenuPage extends StatelessWidget {
-   MenuPage({Key? key}) : super(key: key);
+final _firebaseAuth = FirebaseAuth.instance;
+class MenuPage extends StatefulWidget {
+
+
+  const MenuPage({Key? key}) : super(key: key);
+
+  @override
+  State<MenuPage> createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> {
+
+  String nome = '';
+  String email = '';
+  @override
+  void initState() {
+    pegarUsuario();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
     return  Scaffold(
       appBar: AppBar(
 
@@ -35,21 +55,26 @@ class MenuPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      CircleAvatar(
-                        radius: 74,
-                        backgroundColor: Colors.grey,
-                        child: CircleAvatar(
-                          radius: 70,
-                          backgroundImage: AssetImage('assets/images/profile1.png'),
+                    children:  [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: AdvancedAvatar(
+                          size: 134,
+                          statusSize: 16,
+                          statusColor: Colors.green,
+                          image: AssetImage('assets/images/profile1.png'),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("Nome do Usuario",style: TextStyle(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(email,style: const TextStyle(
                             color: primaryColor,fontWeight: FontWeight.bold,fontSize: 16
                         ),),
-                      )
+                      ),
+                      Text(nome),
                     ],
                   )
               ),
@@ -62,7 +87,17 @@ class MenuPage extends StatelessWidget {
       ),
     );
   }
+  pegarUsuario() async{
+    User? usuario = await _firebaseAuth.currentUser;
+    if(usuario != null){
+      setState(() {
+        email = usuario.email!;
+        nome = usuario.displayName!;
+      });
+    }
+  }
 }
+
 class ItemDraw extends StatelessWidget {
   const ItemDraw({
     Key? key,
@@ -136,13 +171,13 @@ class ItemDraw extends StatelessWidget {
                  onTap: () {
                    Navigator.pop(context);
                    Navigator.push(context,MaterialPageRoute(
-                       builder: (context)=>const Profile()));
+                       builder: (context)=> Profile()));
                  },
                ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(context,MaterialPageRoute(
-                builder: (context)=>const Profile()));
+                builder: (context)=> Profile()));
               }
             ),
             const Divider(height:0.5,thickness: 1,),
@@ -153,19 +188,19 @@ class ItemDraw extends StatelessWidget {
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context,MaterialPageRoute(
-                      builder: (context)=>const Profile()));
+                      builder: (context)=> Profile()));
                 },
               ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(context,MaterialPageRoute(
-                    builder: (context)=>const Profile()));
+                    builder: (context)=> Profile()));
               },
 
             ),
             const Divider(height:0.5,thickness: 1,),
             const ListTile(
-              title: Text('     Emanuel Ribeiro',
+              title: Text('Emanuel Ribeiro',
                   style: style
               ),
               leading: Icon(Icons.copyright_outlined),
@@ -178,6 +213,14 @@ class ItemDraw extends StatelessWidget {
 }
 
 showAlertDialog(BuildContext context) {
+
+
+  sair() async{
+    await _firebaseAuth.signOut().then((then) =>
+        Navigator.pushReplacement(context,MaterialPageRoute(
+            builder: (context)=> const Checagem()))
+    );
+  }
   // set up the buttons
   Widget cancelButton = TextButton(
     style: TextButton.styleFrom(
@@ -193,7 +236,8 @@ showAlertDialog(BuildContext context) {
   Widget continueButton = TextButton(
     child: const Text("Sim"),
     onPressed:  () {
-      SystemNavigator.pop();
+      sair();
+      // SystemNavigator.pop();
     },
   );
   // set up the AlertDialog
@@ -212,4 +256,5 @@ showAlertDialog(BuildContext context) {
       return alert;
     },
   );
+
 }

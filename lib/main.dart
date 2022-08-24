@@ -1,9 +1,8 @@
-import 'package:app_dispesas/src/Pages/homePage.dart';
+import 'package:app_dispesas/src/Pages/checagem_Page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'firebase_options.dart';
-import 'src/Pages/welcome.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
               enabledBorder:textFieldBorder,
               focusedBorder: textFieldBorder
           )),
-      home: HomePage(),
+      home: const Checagem(),
     );
   }
 }
